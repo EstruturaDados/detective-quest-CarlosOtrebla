@@ -10,7 +10,7 @@ FLAGS   = -Wall -Wextra -std=c17
 TARGET  = detective
 
 # Lista de todos os arquivos .c do projeto
-SRCS    = main.c mapa.c pistas.c
+SRCS    = main.c mapa.c pistas.c hash.c
 
 # Regra padrão: compila tudo
 all:
