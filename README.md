@@ -31,14 +31,14 @@ No nível Novato, você criará a árvore binária que representa o **mapa da ma
 
 📥 **Entrada** e 📤 **Saída de Dados:**
 
-*   O usuário navega pela mansão com base nas opções exibidas no terminal.
-*   O programa mostra o nome da sala visitada a cada passo.
+- O usuário navega pela mansão com base nas opções exibidas no terminal.
+- O programa mostra o nome da sala visitada a cada passo.
 
 **Simplificações para o Nível Novato:**
 
-*   Apenas árvore binária (sem inserção ou remoção durante o jogo).
-*   A árvore é montada estaticamente via código.
-*   Estrutura imutável em tempo de execução.
+- Apenas árvore binária (sem inserção ou remoção durante o jogo).
+- A árvore é montada estaticamente via código.
+- Estrutura imutável em tempo de execução.
 
 ---
 
@@ -48,25 +48,25 @@ No nível Aventureiro, você expandirá o jogo incluindo uma **árvore de busca 
 
 🆕 **Diferença em relação ao Nível Novato:**
 
-*   Agora, ao visitar certos cômodos, o jogador encontrará pistas.
-*   Essas pistas são armazenadas ordenadamente em uma BST.
+- Agora, ao visitar certos cômodos, o jogador encontrará pistas.
+- Essas pistas são armazenadas ordenadamente em uma BST.
 
 ⚙️ **Funcionalidades do Sistema:**
 
-*   Implementar inserção e busca de strings (pistas) na árvore de busca.
-*   Permitir que o jogador visualize todas as pistas em ordem alfabética.
-*   Adicionar novas pistas automaticamente ao visitar salas específicas.
+- Implementar inserção e busca de strings (pistas) na árvore de busca.
+- Permitir que o jogador visualize todas as pistas em ordem alfabética.
+- Adicionar novas pistas automaticamente ao visitar salas específicas.
 
 📥 **Entrada** e 📤 **Saída de Dados:**
 
-*   As pistas são cadastradas via `inserir()` ao serem encontradas.
-*   O programa pode listar todas as pistas com `emOrdem()`.
+- As pistas são cadastradas via `inserir()` ao serem encontradas.
+- O programa pode listar todas as pistas com `emOrdem()`.
 
 **Simplificações para o Nível Intermediário:**
 
-*   Nenhuma remoção é necessária.
-*   Não é necessário balancear a árvore.
-*   As pistas são strings simples (nomes curtos).
+- Nenhuma remoção é necessária.
+- Não é necessário balancear a árvore.
+- As pistas são strings simples (nomes curtos).
 
 ---
 
@@ -76,26 +76,26 @@ No nível Mestre, você implementará a **tabela hash** para vincular pistas a *
 
 🆕 **Diferença em relação ao Nível Aventureiro:**
 
-*   Cada pista armazenada na BST será relacionada a um suspeito via tabela hash.
-*   Ao final, o jogador poderá ver qual suspeito está mais associado às pistas e decidir quem é o culpado.
+- Cada pista armazenada na BST será relacionada a um suspeito via tabela hash.
+- Ao final, o jogador poderá ver qual suspeito está mais associado às pistas e decidir quem é o culpado.
 
 ⚙️ **Funcionalidades do Sistema:**
 
-*   Implementar uma tabela hash (array de ponteiros ou lista encadeada).
-*   Função de inserção que relaciona pista → suspeito.
-*   Permitir consulta de todas as pistas relacionadas a cada suspeito.
-*   Mostrar o “suspeito mais citado” ao final da análise.
+- Implementar uma tabela hash (array de ponteiros ou lista encadeada).
+- Função de inserção que relaciona pista → suspeito.
+- Permitir consulta de todas as pistas relacionadas a cada suspeito.
+- Mostrar o “suspeito mais citado” ao final da análise.
 
 📥 **Entrada** e 📤 **Saída de Dados:**
 
-*   As pistas e suspeitos são armazenados via `inserirNaHash(pista, suspeito)`.
-*   O programa exibe as associações pista → suspeito.
-*   Exibe o suspeito mais citado com base nas pistas armazenadas.
+- As pistas e suspeitos são armazenados via `inserirNaHash(pista, suspeito)`.
+- O programa exibe as associações pista → suspeito.
+- Exibe o suspeito mais citado com base nas pistas armazenadas.
 
 **Observações:**
 
-*   Pode utilizar hashing simples com função de espalhamento baseada em primeiros caracteres ou soma ASCII.
-*   O ideal é evitar colisões, mas, se ocorrerem, use encadeamento.
+- Pode utilizar hashing simples com função de espalhamento baseada em primeiros caracteres ou soma ASCII.
+- O ideal é evitar colisões, mas, se ocorrerem, use encadeamento.
 
 ---
 
