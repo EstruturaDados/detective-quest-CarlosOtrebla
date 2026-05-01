@@ -1,39 +1,38 @@
 #include "mapa.h"
+#include "pistas.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <windows.h>
+#include "emojis.h"
 
 /*
- * Monta a árvore binária que representa o mapa da mansão:
+ * Monta a arvore binaria que representa o mapa da mansao:
  *
  *                   Hall de Entrada
  *                  /               \
  *           Biblioteca           Sala de Jantar
  *           /        \             /           \
- *       Porão       Escritório  Cozinha       Jardim
+ *       Porao       Escritorio  Cozinha       Jardim
  *                               /
  *                         Despensa
+ *
+ * Salas com pista: Biblioteca, Escritorio, Cozinha, Despensa
  */
-static Sala *montarMansao(void) {
-  /* Raiz */
-  Sala *hall = criarSala("Hall de Entrada");
+Sala *montarMansao() {
+  Sala *hall = criarSala("Hall de Entrada", "");
 
-  /* Nível 1 */
-  Sala *biblioteca = criarSala("Biblioteca");
-  Sala *salaJantar = criarSala("Sala de Jantar");
+  Sala *biblioteca = criarSala("Biblioteca", "Livro com páginas arrancadas");
+  Sala *salaJantar = criarSala("Sala de Jantar", "");
 
-  /* Nível 2 — filhos da Biblioteca */
-  Sala *porao = criarSala("Porão");
-  Sala *escritorio = criarSala("Escritório");
+  Sala *porao = criarSala("Porão", "");
+  Sala *escritorio = criarSala("Escritório", "Carta anônima na gaveta");
 
-  /* Nível 2 — filhos da Sala de Jantar */
-  Sala *cozinha = criarSala("Cozinha");
-  Sala *jardim = criarSala("Jardim");
+  Sala *cozinha = criarSala("Cozinha", "Veneno no armário");
+  Sala *jardim = criarSala("Jardim", "");
 
-  /* Nível 3 — filho da Cozinha */
-  Sala *despensa = criarSala("Despensa");
+  Sala *despensa = criarSala("Despensa", "Pegadas de barro no chão");
 
-  /* Ligações */
   hall->esquerda = biblioteca;
   hall->direita = salaJantar;
 
@@ -48,8 +47,7 @@ static Sala *montarMansao(void) {
   return hall;
 }
 
-/* Libera toda a memória alocada para a árvore (pós-ordem) */
-static void liberarMansao(Sala *sala) {
+void liberarMansao(Sala *sala) {
   if (sala == NULL)
     return;
   liberarMansao(sala->esquerda);
@@ -57,23 +55,66 @@ static void liberarMansao(Sala *sala) {
   free(sala);
 }
 
-int main(void) {
-  /* Mantém a acentuação correta no terminal */
+int main() {
   SetConsoleOutputCP(65001);
   SetConsoleCP(65001);
 
   printf("============================================\n");
-  printf("       DETECTIVE QUEST - Nivel Novato       \n");
+  printf("  DETECTIVE QUEST - Nível Aventureiro\n");
   printf("============================================\n");
-  printf("Bem-vindo, detetive! Explore a mansão e\n");
-  printf("descubra todos os seus segredos...\n");
+  printf("%s Bem-vindo, detetive! Explore a mansão,\n", EMOJI_DETETIVE);
+  printf("colete pistas e resolva o mistério...\n");
 
   Sala *mansao = montarMansao();
+  NoPista *bstPistas = NULL;
 
-  explorarSalas(mansao);
+  /* Exploração: coleta pistas somente das salas visitadas */
+  bstPistas = explorarSalas(mansao, bstPistas);
+
+  /* Exibe o resumo das pistas em ordem alfabetica */
+  printf("\n============================================\n");
+  printf("   %s EVIDÊNCIAS COLETADAS                  \n", EMOJI_PERGAMINHO);
+  printf("============================================\n");
+  printf("%s Pistas registradas em ordem alfabética:\n", EMOJI_LUPA);
+  listarPistas(bstPistas);
+
+  /* Menu de busca de pista */
+  char busca[100];
+  char resposta;
+  printf("\nDeseja buscar uma pista específica? (s/n): ");
+  do { resposta = (char)getchar(); } while (resposta == '\n' || resposta == '\r');
+
+  while (resposta == 's' || resposta == 'S') {
+    /* Limpa buffer antes de ler a pista */
+    int ch;
+    while ((ch = getchar()) != '\n' && ch != EOF);
+
+    printf("Digite a pista que deseja buscar: ");
+    fgets(busca, sizeof(busca), stdin);
+    /* Remove o '\n' do fgets */
+    busca[strcspn(busca, "\n")] = '\0';
+
+    NoPista *resultado = buscarPista(bstPistas, busca);
+    if (resultado != NULL)
+      printf("%s Pista encontrada: \"%s\"\n", EMOJI_CHAVE, resultado->texto);
+    else
+      printf("%s Pista \"%s\" não foi coletada nesta exploração.\n", EMOJI_AVISO, busca);
+
+    printf("\nBuscar outra pista? (s/n): ");
+    do { resposta = (char)getchar(); } while (resposta == '\n' || resposta == '\r');
+  }
 
   liberarMansao(mansao);
+  liberarPistas(bstPistas);
 
-  printf("\nPrograma encerrado. Até a próxima investigação!\n");
+  printf("\n%s Investigação encerrada. Até a próxima!\n", EMOJI_ALVO);
+
+  /* Esvazia qualquer caractere residual no buffer antes de pausar */
+  int c;
+  while ((c = getchar()) != '\n' && c != EOF);
+
+  printf("\nPressione ENTER para fechar...\n");
+  getchar();
   return 0;
 }
+
